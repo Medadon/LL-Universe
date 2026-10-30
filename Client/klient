@@ -1,0 +1,68 @@
+
+import pygame
+
+pygame.init()
+
+W, H = 600, 600
+
+screen = pygame.display.set_mode((W, H))
+pygame.display.set_caption("SpaceShooter test")
+
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("Arial", 30)
+
+# Player position
+x = 100
+y = 100
+
+run = True
+game_started = False
+
+while run:
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
+        #ENTER
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                game_started = True
+
+    screen.fill((0, 0, 0))
+
+    if not game_started:
+
+        #menu
+        text = font.render("PRESS ENTER TO START", True, (255, 255, 255))
+        screen.blit(text, (100, 270))
+
+    else:
+
+        #keys
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LEFT]:
+            x = max(x - 5, 0)
+
+        if keys[pygame.K_RIGHT]:
+            x = min(x + 5, W - 50)
+
+        if keys[pygame.K_UP]:
+            y = max(y - 5, 0)
+
+        if keys[pygame.K_DOWN]:
+            y = min(y + 5, H - 50)
+
+        if keys[pygame.K_BACKSPACE]:
+            pygame.quit()
+            quit()
+
+        #kvadrat
+        pygame.draw.rect(screen, (255, 0, 0), (x, y, 50, 50))
+
+    pygame.display.flip()
+
+    clock.tick(60)
+
+pygame.quit()
