@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LL Universe - Leaderboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/leaderboard.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <div class="logo">LL UNIVERSE</div>
+            <h1>LEADERBOARD</h1>
+            <div class="subtitle">THE STRONGEST PILOTS IN THE GALAXY</div>
+        </header>
+
+        {% if players %}
+        <section class="top-players" aria-label="Top pilots">
+            {% for player in players[:3] %}
+            <article class="top-card rank-{{ loop.index }}">
+                <div class="medal">
+                    {% if loop.index == 1 %}&#129351;{% elif loop.index == 2 %}&#129352;{% else %}&#129353;{% endif %}
+                </div>
+                <div class="place">{{ loop.index }}{% if loop.index == 1 %}ST{% elif loop.index == 2 %}ND{% else %}RD{% endif %} PLACE</div>
+                <div class="top-name">{{ player.nickname | e }}</div>
+                <div class="top-score">{{ "{:,}".format(player.score) }}</div>
+                <div class="ship">{{ (player.ship_name or "Unknown ship") | e }}</div>
+            </article>
+            {% endfor %}
+        </section>
+
+        <h2>GLOBAL RANKING</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>RANK</th><th>PILOT</th><th>SHIP</th><th>SCORE</th></tr>
+                </thead>
+                <tbody>
+                    {% for player in players %}
+                    <tr>
+                        <td class="position">#{{ loop.index }}</td>
+                        <td class="nickname">{{ player.nickname | e }}</td>
+                        <td>{{ (player.ship_name or "Unknown ship") | e }}</td>
+                        <td class="points">{{ "{:,}".format(player.score) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty">No players yet. Be the first!</div>
+        {% endif %}
+
+        <footer>LL UNIVERSE &copy; 2026 - GALACTIC RECORDS</footer>
+    </main>
+</body>
+</html>

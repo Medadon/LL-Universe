@@ -1,5 +1,5 @@
 @echo off
 cd /d "%~dp0"
-call .venv\Scripts\activate
-python -m game.Main
-pause 
+call .venv\Scripts\activate.bat
+python -m game.main
+pause
